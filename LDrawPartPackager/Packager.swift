@@ -50,14 +50,15 @@ class Packager {
 		let directoryPrefix = path.lastPathComponent
 		while let entryPath = dirEnumerator?.nextObject() as? String {
 			let finalPath = directoryPrefix + "/" + entryPath
-			try archive.addEntry(with: finalPath, relativeTo: path.deletingLastPathComponent())
+			try archive.addEntry(with: finalPath, relativeTo: path.deletingLastPathComponent(), compressionMethod: .deflate)
 			notifier.packed(file: finalPath)
 		}
 		print("Done adding \(path)")
 	}
 	
 	fileprivate func add(file: URL, to archive: Archive, notifier: PackageNotifier) throws {
-		try archive.addEntry(with: file.lastPathComponent, relativeTo: file.deletingLastPathComponent())
+		
+		try archive.addEntry(with: file.lastPathComponent, relativeTo: file.deletingLastPathComponent(), compressionMethod: .deflate)
 		notifier.packed(file: file.lastPathComponent)
 	}
 	
